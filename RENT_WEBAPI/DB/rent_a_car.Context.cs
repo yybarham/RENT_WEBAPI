@@ -28,7 +28,7 @@ namespace API_RENT_A_CAR.DB
         public virtual DbSet<USERS> USERS { get; set; }
         public virtual DbSet<CARS> CARS { get; set; }
         public virtual DbSet<BRANCES> BRANCES { get; set; }
-        public virtual DbSet<ORDERS> ORDERS { get; set; }
         public virtual DbSet<CAR_TYPE> CAR_TYPE { get; set; }
+        public virtual DbSet<ORDERS> ORDERS { get; set; }
     }
 }

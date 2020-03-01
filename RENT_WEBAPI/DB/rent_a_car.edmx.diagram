@@ -8,11 +8,10 @@
         <EntityTypeShape EntityType="RENT_A_CARModel.USERS" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RENT_A_CARModel.CARS" Width="1.5" PointX="5.625" PointY="1" />
         <EntityTypeShape EntityType="RENT_A_CARModel.BRANCES" Width="1.5" PointX="5.375" PointY="4.875" />
-        <EntityTypeShape EntityType="RENT_A_CARModel.ORDERS" Width="1.5" PointX="3" PointY="4.875" />
         <AssociationConnector Association="RENT_A_CARModel.FK_CARS_BRANCES" />
-        <AssociationConnector Association="RENT_A_CARModel.FK_ORDERS_USERS" />
         <EntityTypeShape EntityType="RENT_A_CARModel.CAR_TYPE" Width="1.5" PointX="7.375" PointY="5" />
         <AssociationConnector Association="RENT_A_CARModel.FK_CARS_CAR_TYPE" />
+        <EntityTypeShape EntityType="RENT_A_CARModel.ORDERS" Width="1.5" PointX="0.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

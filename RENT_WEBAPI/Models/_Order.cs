@@ -11,7 +11,7 @@ namespace API_RENT_A_CAR.Models
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
         public System.DateTime ? ActualDate { get; set; }
-        public int Id { get; set; }
+        public string UserName { get; set; }
         public string Number { get; set; }
         public double?  Payed { get; set; }
 

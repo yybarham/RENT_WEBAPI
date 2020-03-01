@@ -18,10 +18,8 @@ namespace API_RENT_A_CAR.DB
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
         public Nullable<System.DateTime> ActualDate { get; set; }
-        public int Id { get; set; }
         public string Number { get; set; }
         public Nullable<double> Payed { get; set; }
-    
-        public virtual USERS USERS { get; set; }
+        public string UserName { get; set; }
     }
 }

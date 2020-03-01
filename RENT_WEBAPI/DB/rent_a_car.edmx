@@ -47,9 +47,9 @@
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
           <Property Name="ActualDate" Type="date" />
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Number" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="10" />
           <Property Name="Payed" Type="float" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="USERS">
           <Key>
@@ -87,18 +87,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ORDERS_USERS">
-          <End Role="USERS" Type="Self.USERS" Multiplicity="1" />
-          <End Role="ORDERS" Type="Self.ORDERS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="USERS">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ORDERS">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="RENT_A_CARModelStoreContainer">
           <EntitySet Name="BRANCES" EntityType="Self.BRANCES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAR_TYPE" EntityType="Self.CAR_TYPE" Schema="dbo" store:Type="Tables" />
@@ -112,10 +100,6 @@
           <AssociationSet Name="FK_CARS_CAR_TYPE" Association="Self.FK_CARS_CAR_TYPE">
             <End Role="CAR_TYPE" EntitySet="CAR_TYPE" />
             <End Role="CARS" EntitySet="CARS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ORDERS_USERS" Association="Self.FK_ORDERS_USERS">
-            <End Role="USERS" EntitySet="USERS" />
-            <End Role="ORDERS" EntitySet="ORDERS" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -133,26 +117,21 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Role" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ORDERS" Relationship="RENT_A_CARModel.FK_ORDERS_USERS" FromRole="USERS" ToRole="ORDERS" />
         </EntityType>
         <EntityContainer Name="rent_a_car_Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="USERS" EntityType="Self.USERS" />
           <EntitySet Name="CARS" EntityType="RENT_A_CARModel.CARS" />
           <EntitySet Name="BRANCES" EntityType="RENT_A_CARModel.BRANCES" />
-          <EntitySet Name="ORDERS" EntityType="RENT_A_CARModel.ORDERS" />
           <AssociationSet Name="FK_CARS_BRANCES" Association="RENT_A_CARModel.FK_CARS_BRANCES">
             <End Role="BRANCES" EntitySet="BRANCES" />
             <End Role="CARS" EntitySet="CARS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ORDERS_USERS" Association="RENT_A_CARModel.FK_ORDERS_USERS">
-            <End Role="USERS" EntitySet="USERS" />
-            <End Role="ORDERS" EntitySet="ORDERS" />
           </AssociationSet>
           <EntitySet Name="CAR_TYPE" EntityType="RENT_A_CARModel.CAR_TYPE" />
           <AssociationSet Name="FK_CARS_CAR_TYPE" Association="RENT_A_CARModel.FK_CARS_CAR_TYPE">
             <End Role="CAR_TYPE" EntitySet="CAR_TYPE" />
             <End Role="CARS" EntitySet="CARS" />
           </AssociationSet>
+          <EntitySet Name="ORDERS" EntityType="RENT_A_CARModel.ORDERS" />
         </EntityContainer>
         <EntityType Name="CARS">
           <Key>
@@ -179,19 +158,6 @@
           <Property Name="Lat" Type="Double" Nullable="false" />
           <NavigationProperty Name="CARS" Relationship="RENT_A_CARModel.FK_CARS_BRANCES" FromRole="BRANCES" ToRole="CARS" />
         </EntityType>
-        <EntityType Name="ORDERS">
-          <Key>
-            <PropertyRef Name="OrderId" />
-          </Key>
-          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ActualDate" Type="DateTime" Precision="0" />
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Number" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="USERS" Relationship="RENT_A_CARModel.FK_ORDERS_USERS" FromRole="ORDERS" ToRole="USERS" />
-          <Property Name="Payed" Type="Double" />
-        </EntityType>
         <Association Name="FK_CARS_BRANCES">
           <End Type="RENT_A_CARModel.BRANCES" Role="BRANCES" Multiplicity="1" />
           <End Type="RENT_A_CARModel.CARS" Role="CARS" Multiplicity="*" />
@@ -201,18 +167,6 @@
             </Principal>
             <Dependent Role="CARS">
               <PropertyRef Name="Branch" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ORDERS_USERS">
-          <End Type="RENT_A_CARModel.USERS" Role="USERS" Multiplicity="1" />
-          <End Type="RENT_A_CARModel.ORDERS" Role="ORDERS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="USERS">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ORDERS">
-              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -241,6 +195,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ORDERS">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ActualDate" Type="DateTime" Precision="0" />
+          <Property Name="Number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Payed" Type="Double" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -284,19 +250,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ORDERS">
-            <EntityTypeMapping TypeName="RENT_A_CARModel.ORDERS">
-              <MappingFragment StoreEntitySet="ORDERS">
-                <ScalarProperty Name="Payed" ColumnName="Payed" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ActualDate" ColumnName="ActualDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CAR_TYPE">
             <EntityTypeMapping TypeName="RENT_A_CARModel.CAR_TYPE">
               <MappingFragment StoreEntitySet="CAR_TYPE">
@@ -307,6 +260,19 @@
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Manufacturer" ColumnName="Manufacturer" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDERS">
+            <EntityTypeMapping TypeName="RENT_A_CARModel.ORDERS">
+              <MappingFragment StoreEntitySet="ORDERS">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Payed" ColumnName="Payed" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="ActualDate" ColumnName="ActualDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -25,7 +25,7 @@ namespace API_RENT_A_CAR.Controllers
             {
                 var list = db.ORDERS.Select(o => new _Order()
                 {
-                    Id = o.Id,
+                    UserName = o.UserName,
                     StartDate = o.StartDate,
                     EndDate = o.EndDate,
                     ActualDate = o.ActualDate.Value,
@@ -49,7 +49,7 @@ namespace API_RENT_A_CAR.Controllers
             {
                 db.ORDERS.Add(new ORDERS()
                 {
-                    Id = o.Id,
+                    UserName = o.UserName,
                     StartDate = o.StartDate,
                     EndDate = o.EndDate,
                     ActualDate = o.ActualDate,
