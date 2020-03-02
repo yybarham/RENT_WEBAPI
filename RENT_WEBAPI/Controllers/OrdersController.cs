@@ -47,18 +47,33 @@ namespace API_RENT_A_CAR.Controllers
         {
             try
             {
-                db.ORDERS.Add(new ORDERS()
+                if (o.IsNew)
                 {
-                    UserName = o.UserName,
-                    StartDate = o.StartDate,
-                    EndDate = o.EndDate,
-                    ActualDate = o.ActualDate,
-                    Number = o.Number,
-                    Payed = o.Payed
-                });
-
-                var curr = db.CARS.Where(a => a.Number == o.Number).FirstOrDefault();
-                curr.IsFree = false;
+                    db.ORDERS.Add(new ORDERS()
+                    {
+                        UserName = o.UserName,
+                        StartDate = o.StartDate,
+                        EndDate = o.EndDate,
+                        ActualDate = o.ActualDate,
+                        Number = o.Number,
+                        Payed = o.Payed
+                    });
+                    var curr = db.CARS.Where(a => a.Number == o.Number).FirstOrDefault();
+                    curr.IsFree = false;
+                }
+                else {
+                    ORDERS order = db.ORDERS.Find(o.OrderId);
+                    if (order == null)
+                    {
+                        return false;
+                    }
+                    order.UserName = o.UserName;
+                    order.StartDate = o.StartDate;
+                    order.EndDate = o.EndDate;
+                    order.ActualDate = o.ActualDate;
+                    order.Number = o.Number;
+                    order.Payed = o.Payed;
+                }
 
                 db.SaveChanges();
             }
@@ -86,71 +101,20 @@ namespace API_RENT_A_CAR.Controllers
             return true;
         }
 
-        //// GET: api/Orders/5
-        //[ResponseType(typeof(ORDERS))]
-        //public IHttpActionResult GetORDERS(int id)
-        //{
-        //    ORDERS oRDERS = db.ORDERS.Find(id);
-        //    if (oRDERS == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpGet]
+        [Route("api/DeleteOrder/{id}")]
+        public bool DeleteOrder(int id)
+        {
+            ORDERS order = db.ORDERS.Find(id);
+            if (order == null)
+            {
+                return false;
+            }
+            db.ORDERS.Remove(order);
+            db.SaveChanges();
 
-        //    return Ok(oRDERS);
-        //}
-
-        //// PUT: api/Orders/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutORDERS(int id, ORDERS oRDERS)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != oRDERS.OrderId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(oRDERS).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ORDERSExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
-
-
-        //// DELETE: api/Orders/5
-        //[ResponseType(typeof(ORDERS))]
-        //public IHttpActionResult DeleteORDERS(int id)
-        //{
-        //    ORDERS oRDERS = db.ORDERS.Find(id);
-        //    if (oRDERS == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.ORDERS.Remove(oRDERS);
-        //    db.SaveChanges();
-
-        //    return Ok(oRDERS);
-        //}
+            return true;
+        }
 
         protected override void Dispose(bool disposing)
         {

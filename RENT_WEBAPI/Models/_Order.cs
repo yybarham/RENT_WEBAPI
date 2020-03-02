@@ -14,6 +14,7 @@ namespace API_RENT_A_CAR.Models
         public string UserName { get; set; }
         public string Number { get; set; }
         public double?  Payed { get; set; }
+        public bool IsNew { get; set; }
 
     }
 }
