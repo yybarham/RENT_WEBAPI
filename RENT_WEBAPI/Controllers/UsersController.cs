@@ -45,7 +45,7 @@ namespace API_RENT_A_CAR.Controllers
                 {
                     db.USERS.Add(new USERS()
                     {
-                        Id = u.Id,
+                        //Id = u.Id,
                         FullName = u.FullName,
                         Email = u.Email,
                         Gender = u.Gender,

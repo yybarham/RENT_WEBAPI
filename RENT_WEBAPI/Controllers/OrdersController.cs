@@ -89,9 +89,14 @@ namespace API_RENT_A_CAR.Controllers
         {
             try
             {
+
                 var curr = db.ORDERS.Where(a => a.OrderId == o.OrderId).FirstOrDefault();
                 curr.ActualDate = o.ActualDate;
                 curr.Payed = o.Payed;
+
+                var carToFree = db.CARS.Where(c => c.Number == curr.Number).FirstOrDefault();
+                carToFree.IsFree = true;
+
                 db.SaveChanges();
             }
             catch
