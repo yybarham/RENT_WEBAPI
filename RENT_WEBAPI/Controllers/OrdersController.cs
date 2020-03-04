@@ -95,7 +95,8 @@ namespace API_RENT_A_CAR.Controllers
                 curr.Payed = o.Payed;
 
                 var carToFree = db.CARS.Where(c => c.Number == curr.Number).FirstOrDefault();
-                carToFree.IsFree = true;
+                if (carToFree != null)
+                    carToFree.IsFree = true;
 
                 db.SaveChanges();
             }

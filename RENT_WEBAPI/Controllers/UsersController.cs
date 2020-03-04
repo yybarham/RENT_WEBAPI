@@ -37,15 +37,18 @@ namespace API_RENT_A_CAR.Controllers
        
         [HttpPost]
         [Route("api/SaveUser")]
-        public bool SaveUser(_User u)
+        public int SaveUser(_User u)
         {
             try
             {
                 if (u.IsNew)
                 {
+                    var isUserExist = db.USERS.Where(uu => uu.UserName == u.UserName).FirstOrDefault();
+                    if (isUserExist!=null) {
+                        return -1;
+                    }
                     db.USERS.Add(new USERS()
                     {
-                        //Id = u.Id,
                         FullName = u.FullName,
                         Email = u.Email,
                         Gender = u.Gender,
@@ -69,9 +72,9 @@ namespace API_RENT_A_CAR.Controllers
             }
             catch
             {
-                return false;
+                return 0;
             }
-            return true;
+            return 1;
         }
 
 
